@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Circle</title>
+    <script src="Circle.js"></script>
+</head>
+<body>
+<canvas id="myCanvas" width="600px" height="400px" style="background-color: #faebd7;border: 3px;display: block; margin: auto"></canvas>
+<img src="ball1.png" id="ball1">
+<img src="ball2.png" id="ball2">
+<img src="ball3.jpeg" id="ball3">
+<button onclick="stopRunning()">Stop</button>
+<button onclick="continueRunning()">Continue</button>
+</body>
+<script>
+    let canvas = document.getElementById('myCanvas');
+
+    let circles = [];
+    let run = null;
+    function creatCircle() {
+        for (let i = 0; i < 10; i++) {
+            let x = randomNumber(0,canvas.width); // 4.9 -> 4,
+            let y = randomNumber(0,canvas.height); // 4.9 -> 4,
+            let radius = randomNumber(20,50);
+            let ball = getBall();
+            let circle = new Circle(x,y,radius,randomColor(),randomNumber(5,25),ball);
+            circles.push(circle);
+        }
+        display();
+    }
+
+    function moveAllCircle() {
+        clearScreen();
+        for (let i = 0; i < circles.length; i++) {
+            if(circles[i].x >= canvas.width || circles[i].x <= 0){
+                circles[i].speed = -circles[i].speed;
+            }
+            circles[i].moveRight();
+        }
+        display();
+    }
+    
+    function display() {
+        for (let i = 0; i < circles.length; i++) {
+            circles[i].drawBall(canvas);
+        }
+    }
+
+    creatCircle();
+    run = setInterval(moveAllCircle,60);
+
+    // creatCircle();
+    // display();
+    function stopRunning() {
+        clearInterval(run);
+    }
+
+    function continueRunning() {
+        run = setInterval(moveAllCircle,60);
+    }
+
+    function randomNumber(min,max) {
+        let rand = Math.floor(Math.random()*(max-min))+min;
+        return rand;
+    }
+
+
+    function randomColor() {
+        let r = randomNumber(0,255);
+        let g = randomNumber(0,255);
+        let b = randomNumber(0,255);
+        let color = `rgb(${r},${g},${b})`;
+        return color;
+    }
+
+    function getBall() {
+        let name = ['ball1','ball2','ball3'];
+        let rand = Math.floor(Math.random()*name.length);
+        let img = document.getElementById(name[rand]);
+        return img;
+    }
+
+    function clearScreen() {
+        let pen = canvas.getContext('2d');
+        pen.clearRect(0,0,canvas.width,canvas.width);
+    }
+</script>
+</html>

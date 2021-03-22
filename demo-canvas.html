@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo Canvas</title>
+</head>
+<style>
+    canvas{
+        border: 5px solid black;
+        background-color: antiquewhite;
+    }
+</style>
+<body>
+<canvas id="myCanvas" width="600px" height="400px"></canvas>
+<script>
+    let canvas = document.getElementById('myCanvas');
+    let pen = canvas.getContext('2d');
+
+    function drawCircle(x,y,radius,color) {
+        pen.beginPath();
+        pen.arc(x,y,radius,0,2*Math.PI);
+        pen.fillStyle = color;
+        pen.fill();
+        pen.closePath();
+    }
+
+    drawCircle(100,100,50,'pink');
+    // drawCircle(300,200,40,'violet');
+    let x =100;
+    let speed = 10;
+    function setMove() {
+        pen.clearRect(0,0,canvas.width,canvas.height);
+        x += speed;
+        drawCircle(x,100,50,'pink');
+        if(x >= canvas.width - 50 || x <= 50){
+            speed = -speed;
+        }
+        requestAnimationFrame(setMove);
+    }
+
+    // function moveCircle() {
+    //     setInterval(setMove,30);
+    // }
+
+    setMove();
+
+    /*pen.beginPath();
+    pen.rect(200,100,50,50);
+    pen.strokeStyle = 'green';
+    pen.fillStyle = 'blue';
+    pen.stroke();
+    pen.fill();
+    pen.closePath();
+    pen.beginPath();
+    pen.moveTo(100,100);
+    pen.lineTo(300,300);
+    pen.moveTo(300,300);
+    pen.lineTo(300,100);
+    pen.moveTo(300,100);
+    pen.lineTo(100,100);
+    pen.stroke();
+    pen.closePath();*/
+</script>
+</body>
+</html>
